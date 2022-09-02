@@ -26,16 +26,12 @@ jobs:
       with:
         inputs: hello-go/hello-go
         verify: true
-    - name: show
-      run: ls && echo "NEXT" && cd hello-go && ls
+        release-signing-artifacts: true
 
-    # - name: upload artifacts to github
-    #   # Confusingly, this action also supports updating releases, not
-    #   # just creating them. This is what we want here, since we've manually
-    #   # created the release that triggered the action.
-    #   uses: softprops/action-gh-release@v1
-    #   with:
-    #     # dist/ contains the built packages, which smoketest-artifacts/
-    #     # contains the signatures and certificates.
-    #     files: |
-    #       hello-go/
+    - name: upload artifacts to github
+      # Confusingly, this action also supports updating releases, not
+      # just creating them. This is what we want here, since we've manually
+      # created the release that triggered the action.
+      uses: softprops/action-gh-release@v1
+      with:
+        files: hello-go/hello-go
