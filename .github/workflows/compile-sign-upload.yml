@@ -19,19 +19,30 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
+    - uses: actions/setup-python@v4
+      with:
+        python-version: '3.10'
     - uses: actions/setup-go@v3
+    - name: Install in-toto
+      run: pip install in-toto
     - name: compile
-      run: cd hello-go && go build
+      run: cd hello-go && in-toto-run --step-name compile --products /home/runner/work/supply-chain-pipeline-demo/supply-chain-pipeline-demo/hello-go/hello-go --key ../functionary_bob/bob -- go build
+    - name: in-toto-record start
+      run: in-toto-record start -n sigstore-upload -k functionary_bob/bob -m .
     - uses: trailofbits/gh-action-sigstore-python@v0.0.7
       with:
         inputs: hello-go/hello-go
         verify: true
         release-signing-artifacts: true
-
+    - name: in-toto-record stop
+      run: in-toto-record stop -n sigstore-upload -k functionary_bob/bob -p .
     - name: upload artifacts to github
       # Confusingly, this action also supports updating releases, not
       # just creating them. This is what we want here, since we've manually
       # created the release that triggered the action.
       uses: softprops/action-gh-release@v1
       with:
-        files: hello-go/hello-go
+        files: |
+          hello-go/hello-go
+          hello-go/*.link
+          *.link
