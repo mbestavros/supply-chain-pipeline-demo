@@ -46,3 +46,4 @@ jobs:
           hello-go/hello-go
           hello-go/*.link
           *.link
+          functionary_developer/developer.pub
