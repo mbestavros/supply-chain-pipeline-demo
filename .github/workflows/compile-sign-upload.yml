@@ -24,7 +24,7 @@ jobs:
         python-version: '3.10'
     - uses: actions/setup-go@v3
     - name: Install in-toto
-      run: pip install in-toto pyOpenSSL>=22.0.0
+      run: pip install -v in-toto pyOpenSSL>=22.0.0
     - name: compile
       run: cd hello-go && in-toto-run --step-name compile --products hello-go --key ../functionary_developer/developer -- go build
     - name: in-toto-record start
