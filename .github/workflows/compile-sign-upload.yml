@@ -26,7 +26,7 @@ jobs:
     - name: Install in-toto
       run: pip install in-toto
     - name: compile
-      run: cd hello-go && in-toto-run --step-name compile --products /home/runner/work/supply-chain-pipeline-demo/supply-chain-pipeline-demo/hello-go/hello-go --key ../functionary_developer/developer -- go build
+      run: cd hello-go && in-toto-run --step-name compile --products hello-go --key ../functionary_developer/developer -- go build
     - name: in-toto-record start
       run: in-toto-record start -n sigstore-upload -k functionary_developer/developer -m .
     - uses: trailofbits/gh-action-sigstore-python@v0.0.8
