@@ -28,14 +28,14 @@ jobs:
     - name: compile
       run: cd hello-go && in-toto-run --step-name compile --products hello-go --key ../functionary_developer/developer -t ed25519 -- go build
     - name: in-toto-record start
-      run: in-toto-record start -n sigstore-upload -k functionary_developer/developer -m .
+      run: in-toto-record start -n sigstore-upload -k functionary_developer/developer -t ed25519 -m .
     - uses: trailofbits/gh-action-sigstore-python@v0.0.8
       with:
         inputs: hello-go/hello-go
         verify: true
         release-signing-artifacts: true
     - name: in-toto-record stop
-      run: in-toto-record stop -n sigstore-upload -k functionary_developer/developer -p .
+      run: in-toto-record stop -n sigstore-upload -k functionary_developer/developer -t ed25519 -p .
     - name: upload artifacts to github
       # Confusingly, this action also supports updating releases, not
       # just creating them. This is what we want here, since we've manually
